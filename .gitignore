@@ -1,6 +1,7 @@
  __pycache__/
 *.pyc
 *.zip
+checkpoints
 dataset
 spirit.away
 .DS_Store
