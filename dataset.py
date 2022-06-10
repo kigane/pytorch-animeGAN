@@ -35,7 +35,7 @@ class AnimeDataSet(Dataset):
         self.debug_samples = args.debug_samples or 0
         self.data_dir = data_dir
         self.image_files =  {}
-        self.photo = 'train_photo'
+        self.photo = 'train'
         self.style = f'{anime_dir}/style'
         self.smooth =  f'{anime_dir}/smooth'
         self.dummy = torch.zeros(3, 256, 256)
