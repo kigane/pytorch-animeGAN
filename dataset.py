@@ -36,8 +36,8 @@ class AnimeDataSet(Dataset):
         self.data_dir = data_dir
         self.image_files =  {}
         self.photo = 'train'
-        self.style = f'{anime_dir}/style'
-        self.smooth =  f'{anime_dir}/smooth'
+        self.style = f'{dataset}/style'
+        self.smooth = f'{dataset}/smooth'
         self.dummy = torch.zeros(3, 256, 256)
 
         for opt in [self.photo, self.style, self.smooth]:
