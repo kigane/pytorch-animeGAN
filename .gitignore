@@ -3,5 +3,6 @@
 *.zip
 checkpoints
 dataset
+result
 spirit.away
 .DS_Store

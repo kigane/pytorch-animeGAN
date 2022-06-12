@@ -17,6 +17,7 @@ from utils.common import initialize_weights
 from utils.image_processing import denormalize_input
 from dataset import AnimeDataSet
 from tqdm import tqdm
+import wandb
 
 gaussian_mean = torch.tensor(0.0)
 gaussian_std = torch.tensor(0.1)
@@ -109,6 +110,11 @@ def gaussian_noise():
 
 def main(args):
     check_params(args)
+    wandb.init(
+        project='AnimeGAN',
+        group='base',
+        config=args
+    )
 
     print("Init models...")
 
@@ -228,12 +234,52 @@ def main(args):
 
             avg_adv, avg_gram, avg_color, avg_content = loss_tracker.avg_loss_G()
             avg_adv_d = loss_tracker.avg_loss_D()
+            wandb.log({
+                'adv': avg_adv,
+                'con': avg_content,
+                'gram': avg_gram,
+                'color': avg_color,
+                'd': avg_adv_d
+            })
             bar.set_description(f'loss G: adv {avg_adv:2f} con {avg_content:2f} gram {avg_gram:2f} color {avg_color:2f} / loss D: {avg_adv_d:2f}')
 
         if e % args.save_interval == 0:
             save_checkpoint(G, optimizer_g, e, args)
             save_checkpoint(D, optimizer_d, e, args)
             save_samples(G, data_loader, args)
+            img, anime, anime_gray, anime_smt_gray = data_loader
+            wandb.log({
+                'photo': wandb.Image(tensor2im(img[0])),
+                'anime': wandb.Image(tensor2im(anime[0])),
+                'fake': wandb.Image(tensor2im(fake_img[0])),
+            })
+
+
+def tensor2im(input_image, imtype=np.uint8):
+    """"Converts a Tensor array (1, 3, h, w) or (3, h, w) into a numpy image array.
+
+    Parameters:
+        input_image (tensor) --  the input image tensor array
+        imtype (type)        --  the desired type of the converted numpy array
+    """
+    if not isinstance(input_image, np.ndarray):
+        if isinstance(input_image, torch.Tensor):  # get the data from a variable
+            image_tensor = input_image.data
+        else:
+            return input_image
+        # convert it into a numpy array
+        if image_tensor.dim() == 4:
+            image_numpy = image_tensor[0].cpu().float().numpy()
+        else:
+            image_numpy = image_tensor.cpu().float().numpy()
+        if image_numpy.shape[0] == 1:  # grayscale to RGB
+            image_numpy = np.tile(image_numpy, (3, 1, 1))
+        # post-processing: tranpose and scaling
+        image_numpy = (np.transpose(image_numpy, (1, 2, 0)) + 1) / 2.0 * 255.0
+        image_numpy = np.clip(image_numpy, 0, 255)
+    else:  # if it is a numpy array, do nothing
+        image_numpy = input_image
+    return image_numpy.astype(imtype)
 
 
 if __name__ == '__main__':
