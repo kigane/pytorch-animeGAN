@@ -247,7 +247,6 @@ def main(args):
             save_checkpoint(G, optimizer_g, e, args)
             save_checkpoint(D, optimizer_d, e, args)
             save_samples(G, data_loader, args)
-            img, anime, anime_gray, anime_smt_gray = data_loader
             wandb.log({
                 'photo': wandb.Image(tensor2im(img[0])),
                 'anime': wandb.Image(tensor2im(anime[0])),
