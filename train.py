@@ -6,7 +6,7 @@ import numpy as np
 import torch.optim as optim
 from multiprocessing import cpu_count
 from torch.utils.data import DataLoader
-from modeling.anime_gan import Generator
+from modeling.anime_gan2 import Generator
 from modeling.anime_gan import Discriminator
 from modeling.losses import AnimeGanLoss
 from modeling.losses import LossSummary
