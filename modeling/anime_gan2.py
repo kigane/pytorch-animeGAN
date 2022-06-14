@@ -53,8 +53,9 @@ class InvertedResBlock(nn.Module):
 
 
 class Generator(nn.Module):
-    def __init__(self, ):
+    def __init__(self, dataset):
         super().__init__()
+        self.name = f'generator_{dataset}'
 
         self.block_a = nn.Sequential(
             ConvNormLReLU(3,  32, kernel_size=7, padding=3),
