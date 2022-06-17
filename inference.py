@@ -21,12 +21,13 @@ VALID_FORMATS = {
 
 class Transformer:
     def __init__(self, weight='hayao', add_mean=False):
-        self.G = Generator('dummy')
+        self.G = Generator('hayao')
 
         if cuda_available:
             self.G = self.G.cuda()
-
-        load_weight(self.G, weight)
+        device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        # load_weight(self.G, weight)
+        self.G.load_state_dict(torch.load('./checkpoints/generator_Hayao.pth', map_location=device))
         self.G.eval()
 
         print("Weight loaded, ready to predict")
