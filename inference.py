@@ -27,7 +27,8 @@ class Transformer:
             self.G = self.G.cuda()
         device = 'cuda' if torch.cuda.is_available() else 'cpu'
         # load_weight(self.G, weight)
-        self.G.load_state_dict(torch.load('./checkpoints/generator_Hayao.pth', map_location=device))
+        self.G.load_state_dict(torch.load(
+            './checkpoints/generator_Hayao.pth', map_location=device)['model_state_dict'])
         self.G.eval()
 
         print("Weight loaded, ready to predict")
