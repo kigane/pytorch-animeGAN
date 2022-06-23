@@ -1,2 +1,2 @@
 set -ex
-python train.py --dataset Shinkai --batch 8 --init-epochs 4 --checkpoint-dir checkpoints --save-image-dir result/imgs --save-interval 10 --gan-loss lsgan --init-lr 0.0001 --lr-g 0.00002 --lr-d 0.00004 --wadvd 10.0 --wadvg 10.0 --wcon 1.5 --wgra 3.0 --wcol 30.0 --use_sn
+python train.py --dataset Hayao --batch 4 --init-epochs 4 --checkpoint-dir checkpoints --save-image-dir result/imgs --save-interval 1 --gan-loss lsgan --init-lr 0.0001 --lr-g 0.0002 --lr-d 0.0004 --wadvd 10.0 --wadvg 10.0 --wcon 1.5 --wgra 3.0 --wcol 30.0 --use_sn
