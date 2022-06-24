@@ -1,8 +1,9 @@
 import torch
-import torch.nn.functional as F
 import torch.nn as nn
-from modeling.vgg import Vgg19
+import torch.nn.functional as F
 from utils.image_processing import gram, rgb_to_yuv
+
+from modeling.vgg import Vgg19
 
 
 class ColorLoss(nn.Module):
@@ -84,6 +85,9 @@ class AnimeGanLoss:
 
         elif self.adv_type == 'normal':
             return self.bce_loss(pred, torch.ones_like(pred))
+        
+        elif self.adv_type == 'wgan':
+            return -torch.mean(pred)
 
         raise ValueError(f'Do not support loss type {self.adv_type}')
 
@@ -97,6 +101,9 @@ class AnimeGanLoss:
         elif self.adv_type == 'normal':
             return self.bce_loss(pred, torch.zeros_like(pred))
 
+        elif self.adv_type == 'wgan':
+            return torch.mean(pred)
+
         raise ValueError(f'Do not support loss type {self.adv_type}')
 
 
@@ -109,6 +116,9 @@ class AnimeGanLoss:
 
         elif self.adv_type == 'normal':
             return self.bce_loss(pred, torch.zeros_like(pred))
+
+        elif self.adv_type == 'wgan':
+            return -torch.mean(pred)
 
         raise ValueError(f'Do not support loss type {self.adv_type}')
 

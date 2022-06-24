@@ -1,23 +1,22 @@
-import torch
 import argparse
 import os
+from multiprocessing import cpu_count
+
 import cv2
 import numpy as np
+import torch
 import torch.optim as optim
-from multiprocessing import cpu_count
 from torch.utils.data import DataLoader
-from modeling.anime_gan2 import Generator
-from modeling.anime_gan import Discriminator
-from modeling.losses import AnimeGanLoss
-from modeling.losses import LossSummary
-from utils.common import load_checkpoint
-from utils.common import save_checkpoint
-from utils.common import set_lr
-from utils.common import initialize_weights
-from utils.image_processing import denormalize_input
-from dataset import AnimeDataSet
 from tqdm import tqdm
+
 import wandb
+from dataset import AnimeDataSet
+from modeling.anime_gan import Discriminator
+from modeling.anime_gan2 import Generator
+from modeling.losses import AnimeGanLoss, LossSummary
+from utils.common import (initialize_weights, load_checkpoint, save_checkpoint,
+                          set_lr)
+from utils.image_processing import denormalize_input
 
 gaussian_mean = torch.tensor(0.0)
 gaussian_std = torch.tensor(0.1)

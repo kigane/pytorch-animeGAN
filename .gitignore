@@ -2,6 +2,7 @@
 *.pyc
 *.zip
 checkpoints
+wandb
 dataset
 result
 spirit.away
