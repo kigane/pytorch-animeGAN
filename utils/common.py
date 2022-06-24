@@ -65,7 +65,8 @@ def initialize_weights(net):
     for m in net.modules():
         try:
             if isinstance(m, nn.Conv2d):
-                m.weight.data.normal_(0, 0.02)
+                # m.weight.data.normal_(0, 0.02)
+                nn.init.kaiming_normal_(m.weight.data, a=0.2)
                 m.bias.data.zero_()
             elif isinstance(m, nn.ConvTranspose2d):
                 m.weight.data.normal_(0, 0.02)

@@ -2,6 +2,8 @@ import torch
 from torch import nn
 import torch.nn.functional as F
 
+from utils.common import initialize_weights
+
 
 class ConvNormLReLU(nn.Sequential):
     def __init__(self, in_ch, out_ch, kernel_size=3, stride=1, padding=1, pad_mode="reflect", groups=1, bias=False):
@@ -92,6 +94,8 @@ class Generator(nn.Module):
             nn.Conv2d(32, 3, kernel_size=1, stride=1, padding=0, bias=False),
             nn.Tanh()
         )
+
+        initialize_weights(self)
 
     def forward(self, input, align_corners=True):
         out = self.block_a(input)
