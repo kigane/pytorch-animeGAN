@@ -74,7 +74,7 @@ def check_params(args):
         print(f'* {args.checkpoint_dir} does not exist, creating...')
         os.makedirs(args.checkpoint_dir)
 
-    assert args.gan_loss in {'lsgan', 'hinge', 'bce'}, f'{args.gan_loss} is not supported'
+    assert args.gan_loss in {'lsgan', 'hinge', 'bce', 'wgan'}, f'{args.gan_loss} is not supported'
 
 
 def save_samples(generator, loader, args, max_imgs=2, subname='gen'):
